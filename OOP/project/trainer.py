@@ -1,5 +1,6 @@
 import sys
-sys.path.append(r'C:/Users/lifet/Documents/GitHub/Python-OOP/First Steps in OOP - Exercise/project')
+sys.path.append('C:\\Users\\lifet\\Documents\\GitHub\\Python-OOP\\OOP\\project')
+print(sys.path)
 
 from project.pokemon import Pokemon
 from typing import List
