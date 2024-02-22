@@ -1,4 +1,7 @@
-from .pokemon import Pokemon
+import sys
+sys.path.append(r'C:/Users/lifet/Documents/GitHub/Python-OOP/First Steps in OOP - Exercise/project')
+
+from project.pokemon import Pokemon
 from typing import List
 
 class Trainer:
