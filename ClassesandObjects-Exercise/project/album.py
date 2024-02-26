@@ -1,4 +1,5 @@
-
+import sys
+sys.path.append('C:\\Users\\lifet\\Documents\\GitHub\\Python-OOP\\ClassesandObjects-Exercise\\project')
 from project.song import Song
 
 
