@@ -3,5 +3,7 @@ sys.path.append('C:\\Users\\lifet\\Documents\\GitHub\\Python-OOP\\Encapsulation-
 
 from project.beverage.hot_beverage import HotBeverage
 
+
 class Tea(HotBeverage):
-    pass
+    def __init__(self, name: str, price: float, milliliters: float):
+        super().__init__(name, price, milliliters)
