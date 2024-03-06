@@ -6,64 +6,38 @@ from project.topping import Topping
 
 
 class Pizza:
-    def __init__(self, name, dough: Dough, max_number_of_toppings) -> None:
+    def __init__(self, name: str, dough: Dough, max_number_of_toppings: int):
+        self.validate_name(name)
+        self.validate_dough(dough)
+        self.validate_max_toppings(max_number_of_toppings)
+
         self.name = name
         self.dough = dough
         self.max_number_of_toppings = max_number_of_toppings
         self.toppings = {}
+        self.topping_counter = 0
 
-
-
-    @property
-    def name(self):
-        return self.__name
-
-
-    @name.setter
-    def name(self, value):
-        if value == "":
+    def validate_name(self, name):
+        if name == "":
             raise ValueError("The name cannot be an empty string")
-        
-        self.__name = value
 
-
-    @property
-    def dough(self):
-        return self.__dough
-
-
-    @dough.setter
-    def dough(self, value):
-        if value is None:
+    def validate_dough(self, dough):
+        if not dough:
             raise ValueError("You should add dough to the pizza")
-        
-        self.__dough = value
 
-
-    @property
-    def max_number_of_toppings(self):
-        return self.__max_number_of_toppings
-
-
-    @max_number_of_toppings.setter
-    def max_number_of_toppings(self, value):
-        if value <= 0:
+    def validate_max_toppings(self, max_num_of_toppings):
+        if max_num_of_toppings <= 0:
             raise ValueError("The maximum number of toppings cannot be less or equal to zero")
-        
-        self.__max_number_of_toppings = value
 
-
-    def add_toppings(self, topping: Topping):
-        if len(self.toppings) >= self.max_number_of_toppings:
+    def add_topping(self, topping: Topping):
+        if self.max_number_of_toppings <= self.topping_counter:
             raise ValueError("Not enough space for another topping")
-        
-        if topping.topping_type in self.toppings:
-            self.toppings[topping.topping_type] += topping.weight
         else:
-            self.toppings[topping.topping_type] = topping.weight
-
+            if topping.topping_type in self.toppings:
+                self.toppings[topping.topping_type] += topping.weight
+            else:
+                self.toppings[topping.topping_type] = topping.weight
+        self.topping_counter += 1
 
     def calculate_total_weight(self):
-        toppings_weight = sum([t for t in self.toppings.values()])
-        pizza_weight = self.dough.weight + toppings_weight
-        return pizza_weight
+        return sum(self.toppings.values()) + self.dough.weight
