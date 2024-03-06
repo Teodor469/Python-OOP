@@ -3,5 +3,7 @@ sys.path.append('C:\\Users\\lifet\\Documents\\GitHub\\Python-OOP\\Encapsulation-
 
 from project.food.food import Food
 
+
 class Starter(Food):
-    pass
+    def __init__(self, name: str, price: float, grams: float):
+        super().__init__(name, price, grams)
