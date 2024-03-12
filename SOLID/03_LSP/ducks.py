@@ -1,6 +1,12 @@
 from abc import abstractmethod, ABC
 
 
+class QuackMixin:
+
+    @staticmethod
+    def quack():
+        return "quack"
+
 class Duck(ABC):
     @staticmethod
     def quack():
@@ -15,7 +21,7 @@ class Duck(ABC):
         pass
 
 
-class RubberDuck(Duck):
+class RubberDuck(QuackMixin):
     @staticmethod
     def quack():
         return "Squeek"
