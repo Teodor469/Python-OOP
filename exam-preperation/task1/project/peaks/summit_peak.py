@@ -11,8 +11,8 @@ class SummitPeak(BasePeak):
     def calculate_difficulty_level(self) -> int:
         if self.elevation > 2500:
             return 'Extreme'
-        elif self.elevation >= 1500 and self.elevation <= 2500:
-            return 'Advanced'
+        elif 1500 <= self.elevation <= 2500:
+            return "Advanced"
         
     
     def get_recommended_gear(self) -> list:

@@ -1,7 +1,5 @@
-import sys
-sys.path.append('C:\\Users\\lifet\\Documents\\GitHub\\Python-OOP\\exam-preperation\\task1\\project')
-from project.peaks.base_peak import BasePeak
 from project.climbers.base_climber import BaseClimber
+from project.peaks.base_peak import BasePeak
 
 
 class SummitClimber(BaseClimber):

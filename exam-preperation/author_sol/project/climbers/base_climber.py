@@ -1,8 +1,5 @@
-import sys
-sys.path.append('C:\\Users\\lifet\\Documents\\GitHub\\Python-OOP\\exam-preperation\\task1\\project')
-from project.peaks.base_peak import BasePeak
-
 from abc import ABC, abstractmethod
+from project.peaks.base_peak import BasePeak
 
 
 class BaseClimber(ABC):
