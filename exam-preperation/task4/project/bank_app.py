@@ -23,8 +23,8 @@ class BankApp:
     def add_loan(self, loan_type: str):
         if loan_type not in self.TYPE_OF_LOANS:
             raise Exception("Invalid loan type!")
-        new_loan_class = self.TYPE_OF_LOANS[loan_type]
-        new_loan = new_loan_class()  # Instantiate the loan class to create a new loan object
+        
+        new_loan = self.TYPE_OF_LOANS[loan_type]()  # Instantiate the loan class to create a new loan object
         self.loans.append(new_loan)
         return f"{loan_type} was successfully added."
 
@@ -60,8 +60,7 @@ class BankApp:
 
     def remove_client(self, client_id: str):
         client = self.find_client_by_id(client_id)
-
-        if not client:
+        if client is None:
             raise Exception("No such client!")
 
         if client.loans:
@@ -85,20 +84,19 @@ class BankApp:
                 changed_loans += 1  # Increment the counter
 
         # Return a message indicating the number of loans whose interest rates have been changed
-            return f"Successfully changed {changed_loans} loans."
+        return f"Successfully changed {changed_loans} loans."
 
 
 
 
     def increase_clients_interest(self, min_rate: float):
         changed_client_rates_number = 0  # Counter for the number of clients whose interest rates have been changed
-
-    # Iterate through the bank's clients
+        # Iterate through the bank's clients
         for client in self.clients:
             # Check if the client's interest rate is less than the min_rate value
             if client.interest < min_rate:
                 # Increase the client's interest rate
-                client.increase_clients_interest()
+                client.interest = min_rate
                 changed_client_rates_number += 1  # Increment the counter
 
         # Return a message indicating the number of clients whose interest rates have been changed
@@ -106,40 +104,23 @@ class BankApp:
 
 
     def get_statistics(self):
-    # Counters and accumulators for calculating statistics
-        total_clients_count = len(self.clients)
-        total_clients_income = sum(client.income for client in self.clients)
-        loans_count_granted_to_clients = sum(1 for client in self.clients if client.loans)
-        granted_sum = sum(loan.amount for client in self.clients for loan in client.loans)
-        loans_count_not_granted = len(self.loans) - loans_count_granted_to_clients
-        not_granted_sum = sum(loan.amount for loan in self.loans if loan not in [loan for client in self.clients for loan in client.loans])
-        
-        # Calculate the average client interest rate
-        total_interest_rates = sum(client.interest for client in self.clients)
-        avg_client_interest_rate = total_interest_rates / total_clients_count if total_clients_count > 0 else 0
+        total_income = sum([client.income for client in self.clients])
+        granted_loans_count = sum([len(client.loans) for client in self.clients])
+        granted_amount = sum([sum([loan.amount for loan in client.loans]) for client in self.clients])
+        not_granted_sum = sum([loan.amount for loan in self.loans])
+        avg_client_rate = sum([client.interest for client in self.clients]) / len(self.clients) if self.clients else 0
 
-        # Format the statistics to the 2nd decimal place
-        avg_client_interest_rate = "{:.2f}".format(avg_client_interest_rate)
-        total_clients_income = "{:.2f}".format(total_clients_income)
-        granted_sum = "{:.2f}".format(granted_sum)
-        not_granted_sum = "{:.2f}".format(not_granted_sum)
-
-        # Construct and return the statistics string
-        statistics = f"Active Clients: {total_clients_count}\n" \
-                    f"Total Income: {total_clients_income}\n" \
-                    f"Granted Loans: {loans_count_granted_to_clients}, Total Sum: {granted_sum}\n" \
-                    f"Available Loans: {loans_count_not_granted}, Total Sum: {not_granted_sum}\n" \
-                    f"Average Client Interest Rate: {avg_client_interest_rate}"
-
-        return statistics
+        return f"""Active Clients: {len(self.clients)}
+Total Income: {total_income:.2f}
+Granted Loans: {granted_loans_count}, Total Sum: {granted_amount:.2f}
+Available Loans: {len(self.loans)}, Total Sum: {not_granted_sum:.2f}
+Average Client Interest Rate: {avg_client_rate:.2f}"""
 
 
     #helper methods
-    def find_client_by_id(self, client_id: str) -> BaseClient:
-        for client in self.clients:
-            if client.client_id == client_id:
-                return client
-        raise Exception("No such client!")
+    def find_client_by_id(self, client_id):
+        client = [client for client in self.clients if client.client_id == client_id]
+        return client[0] if client else None
     
 
     def find_loan_by_type(self, loan_type: str) -> BaseLoan:
