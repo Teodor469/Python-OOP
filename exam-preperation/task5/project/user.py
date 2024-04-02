@@ -71,4 +71,4 @@ class User:
 
 
     def __str__(self) -> str:
-        return f"{self.first_name} {self.last_name} Driving license: {self.driving_license_number} Rating: {self.rating}" #NOTE May be wrong because it says "Each User"
+        return f"{self.first_name} {self.last_name} Driving license: {self.driving_license_number} Rating: {self.rating}" #NOTE May be wrong because it says "Each User".
